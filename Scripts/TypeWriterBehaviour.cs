@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class TypeWriterBehaviour : MonoBehaviour {
 
+    
+    [SerializeField]
+    int m_maxCharacterCount = 68;
+    int m_tempCharacterCount = 0;
+    [SerializeField]
+    AudioSource m_typewriterAudio;
+    public List<AudioClip> m_typewriterSounds = new List<AudioClip>();
     public List<GameObject> m_typewriterKeys = new List<GameObject>();
     Dictionary<string,int> m_charaterMapping = new Dictionary<string,int>();
-    void Start(){
+    void Start() {
         Initialise();
     }
 
-    void LateUpdate(){
+    void LateUpdate() {
         ReadKeyboardInput();
     }
 
-    void Initialise(){
+    void Initialise() {
+        if(!m_typewriterAudio) {
+            m_typewriterAudio = GetComponent<AudioSource>();
+        }
         for(int a = 0; a < m_typewriterKeys.Count; a++) {
             TypeWriterKeyBehaviour temp = m_typewriterKeys[a].GetComponent<TypeWriterKeyBehaviour>();
             int v;
@@ -30,15 +40,23 @@ public class TypeWriterBehaviour : MonoBehaviour {
         Debug.Log("Dictionary length: "+m_charaterMapping.Count);
     }
 
-    void ReadKeyboardInput(){
+    void ReadKeyboardInput() {
         string keyboardInput ="";
-        foreach (char c in Input.inputString){
+        foreach (char c in Input.inputString) {
             keyboardInput += c;
         }
-        if(keyboardInput == " "){
-            Debug.Log("Pressed space.");
-        }else if(keyboardInput.Length == 1){
-        Debug.Log("Input: "+keyboardInput);
+        if(keyboardInput != "" && m_tempCharacterCount < m_maxCharacterCount) {
+            int a;
+            m_charaterMapping.TryGetValue(keyboardInput, out a);
+            m_typewriterKeys[a-1].GetComponent<TypeWriterKeyBehaviour>().AnimateKey();
+            if(keyboardInput != " ") {
+                m_typewriterAudio.clip = m_typewriterSounds[Random.Range(0,5)];
+            }else if(keyboardInput == " ") {
+                m_typewriterAudio.clip = m_typewriterSounds[5];
+            }
+            m_typewriterAudio.Play();
+            m_tempCharacterCount += 1;
+            //Debug.Log("Input: "+keyboardInput+" Index: "+a);
         }
     }
 }
