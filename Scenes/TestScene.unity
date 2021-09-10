@@ -1120,6 +1120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff1c05c9e332b04fa98873f52a22825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_typewriterCarriage: {fileID: 8976489937523190171}
+  m_isMoving: 0
+  m_tempCharacterCount: 34
   m_typewriterAudio: {fileID: 0}
   m_typewriterSounds:
   - {fileID: 8300000, guid: c6a367bccb676a64b9e9311c1c180810, type: 3}

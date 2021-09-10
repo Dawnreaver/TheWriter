@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TypeWriterBehaviour : MonoBehaviour {
-
-    
+ 
+    public GameObject m_typewriterCarriage;
     [SerializeField]
+    bool m_isMoving = false;
+    float m_carriageMoveMin = -0.13f;
+    float m_carriageMoveMax = 0.13f;
     int m_maxCharacterCount = 68;
+    [SerializeField]
     int m_tempCharacterCount = 0;
     [SerializeField]
     AudioSource m_typewriterAudio;
     public List<AudioClip> m_typewriterSounds = new List<AudioClip>();
     public List<GameObject> m_typewriterKeys = new List<GameObject>();
     Dictionary<string,int> m_charaterMapping = new Dictionary<string,int>();
+    
     void Start() {
         Initialise();
     }
@@ -45,7 +50,7 @@ public class TypeWriterBehaviour : MonoBehaviour {
         foreach (char c in Input.inputString) {
             keyboardInput += c;
         }
-        if(keyboardInput != "" && m_tempCharacterCount < m_maxCharacterCount) {
+        if(keyboardInput != "" && keyboardInput != "r" && m_tempCharacterCount < m_maxCharacterCount && !m_isMoving) {
             int a;
             m_charaterMapping.TryGetValue(keyboardInput, out a);
             m_typewriterKeys[a-1].GetComponent<TypeWriterKeyBehaviour>().AnimateKey();
@@ -56,7 +61,48 @@ public class TypeWriterBehaviour : MonoBehaviour {
             }
             m_typewriterAudio.Play();
             m_tempCharacterCount += 1;
+            if(m_tempCharacterCount == m_maxCharacterCount) {
+                m_typewriterCarriage.GetComponent<AudioSource>().clip = m_typewriterSounds[6];
+                m_typewriterCarriage.GetComponent<AudioSource>().Play();
+            }
+            StartCoroutine(MoveCarriage(0.3f/m_maxCharacterCount,0.1f, false));
             //Debug.Log("Input: "+keyboardInput+" Index: "+a);
+        } else if (keyboardInput == "r") {
+            ResetCarriage();
         }
+    }
+
+    void ResetCarriage() {
+        m_tempCharacterCount = 0;
+        StartCoroutine(MoveCarriage(0.0f,0.5f,true));
+    }
+
+    IEnumerator MoveCarriage(float distance, float duration, bool reset = false) {
+
+        if(m_isMoving) {
+            yield break;
+        }
+        m_isMoving = true;
+
+        float counter = 0.0f;
+        Vector3 currentPos = m_typewriterCarriage.transform.position;
+        Vector3 movedPos = m_typewriterCarriage.transform.position;
+        if(reset) {
+            Debug.Log("reset carriage");
+            movedPos = new Vector3(currentPos.x,currentPos.y, m_carriageMoveMin);
+        } else {
+            movedPos = new Vector3(currentPos.x,currentPos.y, currentPos.z+distance);
+            Debug.Log("move carriage");
+        }
+        
+        while (counter < duration) {
+            Debug.Log("still moving");
+            counter += Time.deltaTime;
+            Vector3 newPos = Vector3.Lerp(currentPos, movedPos, counter/duration);
+            m_typewriterCarriage.transform.position = newPos;
+            yield return null;
+        }
+        m_isMoving = false;
+        Debug.Log("finished moving");
     }
 }
