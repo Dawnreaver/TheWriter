@@ -719,9 +719,10 @@ GameObject:
   - component: {fileID: 1241102603}
   - component: {fileID: 1241102602}
   - component: {fileID: 1241102605}
+  - component: {fileID: 1241102606}
   m_Layer: 0
   m_Name: KeyCap[Space]
-  m_TagString: Untagged
+  m_TagString: key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -820,6 +821,19 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!65 &1241102606
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241102600}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.00000047683716, z: 0}
 --- !u!1 &1958402323
 GameObject:
   m_ObjectHideFlags: 0
@@ -945,7 +959,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 543450652146338117}
   m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -15.73}
 --- !u!33 &447336562428352011
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -967,9 +981,10 @@ GameObject:
   - component: {fileID: 5427197379127269315}
   - component: {fileID: 514464022572453870}
   - component: {fileID: 514464022572453871}
+  - component: {fileID: 514464022572453872}
   m_Layer: 0
   m_Name: KeyCap[D]
-  m_TagString: Untagged
+  m_TagString: key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1006,6 +1021,19 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!65 &514464022572453872
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 514464022572453869}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24999999, y: 0.19252712, z: 0.24999996}
+  m_Center: {x: 0, y: 0.028736418, z: 0}
 --- !u!33 &517767973997427729
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1143,6 +1171,16 @@ MonoBehaviour:
   - {fileID: 1627854239570609325}
   - {fileID: 5338792938926762814}
   - {fileID: 1241102600}
+  m_typewriterLetterbars:
+  - {fileID: 2428154311546732262}
+  - {fileID: 2342703359721564226}
+  - {fileID: 7989474103673389550}
+  - {fileID: 2337213755657188823}
+  - {fileID: 1698053902351460370}
+  - {fileID: 7735019339604260295}
+  - {fileID: 7377525237915253142}
+  - {fileID: 8154977015967953975}
+  - {fileID: 1058737216355590928}
 --- !u!82 &919132148426036225
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1305,13 +1343,30 @@ GameObject:
   - component: {fileID: 8639590761318786412}
   - component: {fileID: 3616837246081797015}
   - component: {fileID: 4347754060977406440}
+  - component: {fileID: 1058737216355590929}
   m_Layer: 0
-  m_Name: LetterBar
+  m_Name: LetterBar9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &1058737216355590929
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1058737216355590928}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!23 &1102415050933338950
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1451,9 +1506,10 @@ GameObject:
   - component: {fileID: 3754874697939108453}
   - component: {fileID: 1627854239570609326}
   - component: {fileID: 1627854239570609327}
+  - component: {fileID: 1627854239570609328}
   m_Layer: 0
   m_Name: KeyCap[X]
-  m_TagString: Untagged
+  m_TagString: key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1490,6 +1546,19 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!65 &1627854239570609328
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1627854239570609325}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24999999, y: 0.19252712, z: 0.24999996}
+  m_Center: {x: 0, y: 0.028736418, z: 0}
 --- !u!1 &1698053902351460370
 GameObject:
   m_ObjectHideFlags: 0
@@ -1501,13 +1570,30 @@ GameObject:
   - component: {fileID: 440685891486426740}
   - component: {fileID: 4115990558113048383}
   - component: {fileID: 8093443801709929652}
+  - component: {fileID: 1698053902351460371}
   m_Layer: 0
-  m_Name: LetterBar
+  m_Name: LetterBar5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &1698053902351460371
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1698053902351460370}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!23 &2186156252415886775
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1582,13 +1668,30 @@ GameObject:
   - component: {fileID: 2273279302978043480}
   - component: {fileID: 8458128066052991118}
   - component: {fileID: 3729024554467855257}
+  - component: {fileID: 2337213755657188824}
   m_Layer: 0
-  m_Name: LetterBar
+  m_Name: LetterBar4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &2337213755657188824
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2337213755657188823}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &2339555755497073063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1602,9 +1705,10 @@ GameObject:
   - component: {fileID: 7662726914512471062}
   - component: {fileID: 2339555755497073064}
   - component: {fileID: 2339555755497073065}
+  - component: {fileID: 2339555755497073066}
   m_Layer: 0
   m_Name: KeyCap[E]
-  m_TagString: Untagged
+  m_TagString: key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1641,6 +1745,19 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!65 &2339555755497073066
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2339555755497073063}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24999999, y: 0.19252712, z: 0.24999996}
+  m_Center: {x: 0, y: 0.028736418, z: 0}
 --- !u!1 &2342703359721564226
 GameObject:
   m_ObjectHideFlags: 0
@@ -1652,13 +1769,30 @@ GameObject:
   - component: {fileID: 1384946989216641483}
   - component: {fileID: 7573588692504904621}
   - component: {fileID: 1459344256186062}
+  - component: {fileID: 2342703359721564227}
   m_Layer: 0
-  m_Name: LetterBar
+  m_Name: LetterBar2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &2342703359721564227
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2342703359721564226}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &2428154311546732262
 GameObject:
   m_ObjectHideFlags: 0
@@ -1670,13 +1804,30 @@ GameObject:
   - component: {fileID: 9146812471720689679}
   - component: {fileID: 517767973997427729}
   - component: {fileID: 1102415050933338950}
+  - component: {fileID: 2428154311546732263}
   m_Layer: 0
-  m_Name: LetterBar
+  m_Name: LetterBar1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &2428154311546732263
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2428154311546732262}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &2717877357058503062
 GameObject:
   m_ObjectHideFlags: 0
@@ -1812,9 +1963,10 @@ GameObject:
   - component: {fileID: 1227291293282082459}
   - component: {fileID: 3429958032905931795}
   - component: {fileID: 3429958032905931796}
+  - component: {fileID: 3429958032905931797}
   m_Layer: 0
   m_Name: KeyCap[A]
-  m_TagString: Untagged
+  m_TagString: key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1851,6 +2003,19 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!65 &3429958032905931797
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3429958032905931794}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24999999, y: 0.19252712, z: 0.24999996}
+  m_Center: {x: 0, y: 0.028736418, z: 0}
 --- !u!33 &3616837246081797015
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2218,9 +2383,10 @@ GameObject:
   - component: {fileID: 5702374318297821901}
   - component: {fileID: 5338792938926762815}
   - component: {fileID: 5338792938926762816}
+  - component: {fileID: 5338792938926762817}
   m_Layer: 0
   m_Name: KeyCap[C]
-  m_TagString: Untagged
+  m_TagString: key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2257,6 +2423,19 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!65 &5338792938926762817
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5338792938926762814}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24999999, y: 0.19252712, z: 0.24999996}
+  m_Center: {x: 0, y: 0.028736418, z: 0}
 --- !u!4 &5343556894993858940
 Transform:
   m_ObjectHideFlags: 0
@@ -2325,9 +2504,10 @@ GameObject:
   - component: {fileID: 4940413117751539575}
   - component: {fileID: 5456235316449781505}
   - component: {fileID: 5456235316449781506}
+  - component: {fileID: 5456235316449781507}
   m_Layer: 0
   m_Name: KeyCap[W]
-  m_TagString: Untagged
+  m_TagString: key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2364,6 +2544,19 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!65 &5456235316449781507
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5456235316449781504}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24999999, y: 0.19252712, z: 0.24999996}
+  m_Center: {x: 0, y: 0.028736418, z: 0}
 --- !u!23 &5516744152157858216
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2531,9 +2724,10 @@ GameObject:
   - component: {fileID: 7622800198099389771}
   - component: {fileID: 7089371173072806178}
   - component: {fileID: 7089371173072806179}
+  - component: {fileID: 7089371173072806180}
   m_Layer: 0
   m_Name: KeyCap[Q]
-  m_TagString: Untagged
+  m_TagString: key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2570,6 +2764,19 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!65 &7089371173072806180
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7089371173072806177}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24999999, y: 0.19252712, z: 0.24999996}
+  m_Center: {x: 0, y: 0.028736418, z: 0}
 --- !u!1 &7101998612491774912
 GameObject:
   m_ObjectHideFlags: 0
@@ -2583,9 +2790,10 @@ GameObject:
   - component: {fileID: 5516744152157858216}
   - component: {fileID: 7101998612491774913}
   - component: {fileID: 7101998612491774914}
+  - component: {fileID: 7101998612491774915}
   m_Layer: 0
   m_Name: KeyCap[Z]
-  m_TagString: Untagged
+  m_TagString: key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2622,6 +2830,19 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!65 &7101998612491774915
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7101998612491774912}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24999999, y: 0.19252712, z: 0.24999996}
+  m_Center: {x: 0, y: 0.028736418, z: 0}
 --- !u!1 &7377525237915253142
 GameObject:
   m_ObjectHideFlags: 0
@@ -2633,13 +2854,30 @@ GameObject:
   - component: {fileID: 5343556894993858940}
   - component: {fileID: 1527991705893896480}
   - component: {fileID: 2787453853881550699}
+  - component: {fileID: 7377525237915253143}
   m_Layer: 0
-  m_Name: LetterBar
+  m_Name: LetterBar7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &7377525237915253143
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7377525237915253142}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!33 &7573588692504904621
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2810,13 +3048,30 @@ GameObject:
   - component: {fileID: 2966709938590476521}
   - component: {fileID: 9193375310967084510}
   - component: {fileID: 1005556102545240547}
+  - component: {fileID: 7735019339604260296}
   m_Layer: 0
-  m_Name: LetterBar
+  m_Name: LetterBar6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &7735019339604260296
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7735019339604260295}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!4 &7814136685625759841
 Transform:
   m_ObjectHideFlags: 0
@@ -2856,13 +3111,30 @@ GameObject:
   - component: {fileID: 1412787281483008818}
   - component: {fileID: 3133453832318967283}
   - component: {fileID: 7603864380397348566}
+  - component: {fileID: 7989474103673389551}
   m_Layer: 0
-  m_Name: LetterBar
+  m_Name: LetterBar3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &7989474103673389551
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7989474103673389550}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &7991100751208877027
 GameObject:
   m_ObjectHideFlags: 0
@@ -2876,9 +3148,10 @@ GameObject:
   - component: {fileID: 910521617889129386}
   - component: {fileID: 7991100751208877028}
   - component: {fileID: 7991100751208877029}
+  - component: {fileID: 7991100751208877030}
   m_Layer: 0
   m_Name: KeyCap[S]
-  m_TagString: Untagged
+  m_TagString: key
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2915,6 +3188,19 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!65 &7991100751208877030
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7991100751208877027}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24999999, y: 0.19252712, z: 0.24999996}
+  m_Center: {x: 0, y: 0.028736418, z: 0}
 --- !u!23 &8093443801709929652
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2985,13 +3271,30 @@ GameObject:
   - component: {fileID: 7609643016381387823}
   - component: {fileID: 9133719233089868350}
   - component: {fileID: 3036794338832016065}
+  - component: {fileID: 8154977015967953976}
   m_Layer: 0
-  m_Name: LetterBar
+  m_Name: LetterBar8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &8154977015967953976
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8154977015967953975}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 61a97075d7dc9ee46bbf6aca32af3500, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!33 &8458128066052991118
 MeshFilter:
   m_ObjectHideFlags: 0

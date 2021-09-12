@@ -16,10 +16,18 @@ public class TypeWriterBehaviour : MonoBehaviour {
     AudioSource m_typewriterAudio;
     public List<AudioClip> m_typewriterSounds = new List<AudioClip>();
     public List<GameObject> m_typewriterKeys = new List<GameObject>();
+    public List<GameObject> m_typewriterLetterbars = new List<GameObject>();
     Dictionary<string,int> m_charaterMapping = new Dictionary<string,int>();
     
     void Start() {
         Initialise();
+    }
+
+    void Update() {
+        if(Input.GetButtonDown("Fire1")) {
+            Debug.Log("Click!");
+            ReadMouseInteraction();
+        }
     }
 
     void LateUpdate() {
@@ -44,8 +52,25 @@ public class TypeWriterBehaviour : MonoBehaviour {
         }
         Debug.Log("Dictionary length: "+m_charaterMapping.Count);
     }
+    void ReadMouseInteraction() {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit, 100)) {
+            if(hit.collider.tag == "key") {
+                TypeWriterKeyBehaviour key = hit.collider.gameObject.GetComponent<TypeWriterKeyBehaviour>();
+                PressedKey(key.m_keyIndex);
+            }else if(hit.collider.tag == "carriageReturnLever"){
+                // return lever things
+            }
+        }
+    }
 
-    void ReadKeyboardInput() {
+    void PressedKey(int index, string character ="") {
+        Debug.Log("Return index: "+index);
+    }
+    
+// refactor function animations and sound should be in a differnt function
+    void ReadKeyboardInput() { 
         string keyboardInput ="";
         foreach (char c in Input.inputString) {
             keyboardInput += c;
@@ -54,8 +79,10 @@ public class TypeWriterBehaviour : MonoBehaviour {
             int a;
             m_charaterMapping.TryGetValue(keyboardInput, out a);
             m_typewriterKeys[a-1].GetComponent<TypeWriterKeyBehaviour>().AnimateKey();
+            
             if(keyboardInput != " ") {
                 m_typewriterAudio.clip = m_typewriterSounds[Random.Range(0,5)];
+                m_typewriterLetterbars[a-1].GetComponent<Animation>().Play();
             }else if(keyboardInput == " ") {
                 m_typewriterAudio.clip = m_typewriterSounds[5];
             }
@@ -88,21 +115,17 @@ public class TypeWriterBehaviour : MonoBehaviour {
         Vector3 currentPos = m_typewriterCarriage.transform.position;
         Vector3 movedPos = m_typewriterCarriage.transform.position;
         if(reset) {
-            Debug.Log("reset carriage");
             movedPos = new Vector3(currentPos.x,currentPos.y, m_carriageMoveMin);
         } else {
             movedPos = new Vector3(currentPos.x,currentPos.y, currentPos.z+distance);
-            Debug.Log("move carriage");
         }
         
         while (counter < duration) {
-            Debug.Log("still moving");
             counter += Time.deltaTime;
             Vector3 newPos = Vector3.Lerp(currentPos, movedPos, counter/duration);
             m_typewriterCarriage.transform.position = newPos;
             yield return null;
         }
         m_isMoving = false;
-        Debug.Log("finished moving");
     }
 }
