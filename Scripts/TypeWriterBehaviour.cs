@@ -5,8 +5,10 @@ using UnityEngine;
 public class TypeWriterBehaviour : MonoBehaviour {
  
     public GameObject m_typewriterCarriage;
+    public GameObject m_typewriterReturnLever;
     [SerializeField]
     bool m_isMoving = false;
+    bool m_shiftIsActive = false;
     float m_carriageMoveMin = -0.13f;
     float m_carriageMoveMax = 0.13f;
     int m_maxCharacterCount = 68;
@@ -24,9 +26,8 @@ public class TypeWriterBehaviour : MonoBehaviour {
     }
 
     void Update() {
-        if(Input.GetButtonDown("Fire1")) {
-            Debug.Log("Click!");
-            ReadMouseInteraction();
+        if(Input.GetButtonDown("Fire1") && m_tempCharacterCount <= m_maxCharacterCount) {
+            ReadMouseInput();
         }
     }
 
@@ -52,24 +53,58 @@ public class TypeWriterBehaviour : MonoBehaviour {
         }
         Debug.Log("Dictionary length: "+m_charaterMapping.Count);
     }
-    void ReadMouseInteraction() {
+    void ReadMouseInput() {
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, 100)) {
             if(hit.collider.tag == "key") {
                 TypeWriterKeyBehaviour key = hit.collider.gameObject.GetComponent<TypeWriterKeyBehaviour>();
-                PressedKey(key.m_keyIndex);
+                string character ="";
+                if(!m_shiftIsActive) {
+                    character = key.m_characters[0];
+                }
+                else {
+                    character = key.m_characters[1];
+                }
+                PressedKey(key.m_keyIndex, character);
             }else if(hit.collider.tag == "carriageReturnLever"){
-                // return lever things
+                // animate lever
+                m_typewriterReturnLever.GetComponent<Animation>().Play();
+                // return carriage
+                ResetCarriage();
+                // roll up paper one line
             }
         }
     }
 
     void PressedKey(int index, string character ="") {
-        Debug.Log("Return index: "+index);
+        if(m_tempCharacterCount < m_maxCharacterCount) {
+        }
+        if(character == " "){
+            m_typewriterAudio.clip = m_typewriterSounds[5];
+        }
+        else if(character != " " && character != "") {
+            m_typewriterAudio.clip = m_typewriterSounds[Random.Range(0,5)];
+            m_typewriterLetterbars[index-1].GetComponent<Animation>().Play();
+        }
+        else {
+            if(m_typewriterAudio.clip) {
+                m_typewriterAudio.clip = null;
+            }
+            Debug.Log("Unexpected character: "+character);
+        }
+        m_typewriterKeys[index-1].GetComponent<TypeWriterKeyBehaviour>().AnimateKey();
+        m_typewriterAudio.Play();
+
+        m_tempCharacterCount += 1;
+        if(m_tempCharacterCount == m_maxCharacterCount) {
+            m_typewriterCarriage.GetComponent<AudioSource>().clip = m_typewriterSounds[6];
+            m_typewriterCarriage.GetComponent<AudioSource>().Play();
+        }
+        StartCoroutine(MoveCarriage(0.3f/m_maxCharacterCount,0.1f, false));
+        
     }
     
-// refactor function animations and sound should be in a differnt function
     void ReadKeyboardInput() { 
         string keyboardInput ="";
         foreach (char c in Input.inputString) {
@@ -78,22 +113,7 @@ public class TypeWriterBehaviour : MonoBehaviour {
         if(keyboardInput != "" && keyboardInput != "r" && m_tempCharacterCount < m_maxCharacterCount && !m_isMoving) {
             int a;
             m_charaterMapping.TryGetValue(keyboardInput, out a);
-            m_typewriterKeys[a-1].GetComponent<TypeWriterKeyBehaviour>().AnimateKey();
-            
-            if(keyboardInput != " ") {
-                m_typewriterAudio.clip = m_typewriterSounds[Random.Range(0,5)];
-                m_typewriterLetterbars[a-1].GetComponent<Animation>().Play();
-            }else if(keyboardInput == " ") {
-                m_typewriterAudio.clip = m_typewriterSounds[5];
-            }
-            m_typewriterAudio.Play();
-            m_tempCharacterCount += 1;
-            if(m_tempCharacterCount == m_maxCharacterCount) {
-                m_typewriterCarriage.GetComponent<AudioSource>().clip = m_typewriterSounds[6];
-                m_typewriterCarriage.GetComponent<AudioSource>().Play();
-            }
-            StartCoroutine(MoveCarriage(0.3f/m_maxCharacterCount,0.1f, false));
-            //Debug.Log("Input: "+keyboardInput+" Index: "+a);
+            PressedKey(a, keyboardInput);
         } else if (keyboardInput == "r") {
             ResetCarriage();
         }
@@ -127,5 +147,16 @@ public class TypeWriterBehaviour : MonoBehaviour {
             yield return null;
         }
         m_isMoving = false;
+    }
+
+    public void WriteStringAutomatically(string automatedText) { // Maybe an I enumerator?
+        // Devide automated text in separate strings
+        // check string
+        // perform actions for special string e.g. "return" will return the carriage and go to the next line 
+        // start and wait for other coroutine to finish?
+        // type characters
+        // keep track of type caracters
+        // return carriage when max characters reached
+
     }
 }
