@@ -20,7 +20,8 @@ public class TypeWriterBehaviour : MonoBehaviour {
     public List<GameObject> m_typewriterKeys = new List<GameObject>();
     public List<GameObject> m_typewriterLetterbars = new List<GameObject>();
     Dictionary<string,int> m_charaterMapping = new Dictionary<string,int>();
-    
+    /////
+    public Color m_highlightColour = Color.red;
     void Start() {
         Initialise();
     }
@@ -78,6 +79,7 @@ public class TypeWriterBehaviour : MonoBehaviour {
     }
 
     void PressedKey(int index, string character ="") {
+        TypeWriterKeyBehaviour key = m_typewriterKeys[index-1].GetComponent<TypeWriterKeyBehaviour>();
         if(m_tempCharacterCount < m_maxCharacterCount) {
         }
         if(character == " "){
@@ -93,16 +95,17 @@ public class TypeWriterBehaviour : MonoBehaviour {
             }
             Debug.Log("Unexpected character: "+character);
         }
-        m_typewriterKeys[index-1].GetComponent<TypeWriterKeyBehaviour>().AnimateKey();
+        if(key.m_highlighted) {
+            key.RevertKeyColour();
+        }
+        key.AnimateKey();
         m_typewriterAudio.Play();
-
         m_tempCharacterCount += 1;
         if(m_tempCharacterCount == m_maxCharacterCount) {
             m_typewriterCarriage.GetComponent<AudioSource>().clip = m_typewriterSounds[6];
             m_typewriterCarriage.GetComponent<AudioSource>().Play();
         }
-        StartCoroutine(MoveCarriage(0.3f/m_maxCharacterCount,0.1f, false));
-        
+        StartCoroutine(MoveCarriage(0.3f/m_maxCharacterCount,0.1f, false));   
     }
     
     void ReadKeyboardInput() { 
@@ -110,12 +113,14 @@ public class TypeWriterBehaviour : MonoBehaviour {
         foreach (char c in Input.inputString) {
             keyboardInput += c;
         }
-        if(keyboardInput != "" && keyboardInput != "r" && m_tempCharacterCount < m_maxCharacterCount && !m_isMoving) {
+        if(keyboardInput != "" && keyboardInput != "r"  && keyboardInput != "h" && m_tempCharacterCount < m_maxCharacterCount && !m_isMoving) {
             int a;
             m_charaterMapping.TryGetValue(keyboardInput, out a);
             PressedKey(a, keyboardInput);
         } else if (keyboardInput == "r") {
             ResetCarriage();
+        } else if (keyboardInput == "h") {
+            HighlightKeys();
         }
     }
 
@@ -149,6 +154,16 @@ public class TypeWriterBehaviour : MonoBehaviour {
         m_isMoving = false;
     }
 
+
+
+    public void HighlightKeys() {
+
+        for (int a = 0; a < m_typewriterKeys.Count; a ++) {
+            m_typewriterKeys[a].GetComponent<TypeWriterKeyBehaviour>().HighlightKey(m_highlightColour);
+        }
+
+    }
+
     public void WriteStringAutomatically(string automatedText) { // Maybe an I enumerator?
         // Devide automated text in separate strings
         // check string
@@ -157,6 +172,9 @@ public class TypeWriterBehaviour : MonoBehaviour {
         // type characters
         // keep track of type caracters
         // return carriage when max characters reached
+    }
+
+    public void SetTargetWord() {
 
     }
 }
