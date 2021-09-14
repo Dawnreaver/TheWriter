@@ -22,6 +22,10 @@ public class TypeWriterBehaviour : MonoBehaviour {
     Dictionary<string,int> m_charaterMapping = new Dictionary<string,int>();
     /////
     public Color m_highlightColour = Color.red;
+
+    ////// word processing
+    List<string> m_targetWordLetters = new List<string>(); 
+
     void Start() {
         Initialise();
     }
@@ -105,6 +109,16 @@ public class TypeWriterBehaviour : MonoBehaviour {
             m_typewriterCarriage.GetComponent<AudioSource>().clip = m_typewriterSounds[6];
             m_typewriterCarriage.GetComponent<AudioSource>().Play();
         }
+
+        if(m_targetWordLetters.Count != 0) {
+            for(int a = 0; a < m_targetWordLetters.Count; a++) {
+                if(m_targetWordLetters[a] == character) {
+                    m_targetWordLetters.RemoveAt(a);
+                    HighlightKeys();
+                    break;
+                }
+            }
+        }
         StartCoroutine(MoveCarriage(0.3f/m_maxCharacterCount,0.1f, false));   
     }
     
@@ -120,6 +134,7 @@ public class TypeWriterBehaviour : MonoBehaviour {
         } else if (keyboardInput == "r") {
             ResetCarriage();
         } else if (keyboardInput == "h") {
+            SetTargetWord("deseased");
             HighlightKeys();
         }
     }
@@ -157,11 +172,19 @@ public class TypeWriterBehaviour : MonoBehaviour {
 
 
     public void HighlightKeys() {
-
-        for (int a = 0; a < m_typewriterKeys.Count; a ++) {
-            m_typewriterKeys[a].GetComponent<TypeWriterKeyBehaviour>().HighlightKey(m_highlightColour);
+        if(m_targetWordLetters.Count > 0) {
+            int l;
+            TypeWriterKeyBehaviour key;
+            for (int a = 0; a < m_targetWordLetters.Count; a++) {
+                
+                if(m_charaterMapping.TryGetValue(m_targetWordLetters[a], out l)){
+                m_typewriterKeys[l-1].GetComponent<TypeWriterKeyBehaviour>().HighlightKey(m_highlightColour);
+                }
+                else {
+                    Debug.Log("Failed to get entry from dictionary for string: "+m_targetWordLetters[a]);
+                }
+            }
         }
-
     }
 
     public void WriteStringAutomatically(string automatedText) { // Maybe an I enumerator?
@@ -174,7 +197,16 @@ public class TypeWriterBehaviour : MonoBehaviour {
         // return carriage when max characters reached
     }
 
-    public void SetTargetWord() {
-
+    public void SetTargetWord(string word) {
+        // make sure the list of target letters is empty
+        m_targetWordLetters.Clear();
+        // split the word into letters
+        char[] letters = word.ToCharArray();
+        Debug.Log("Number of letters in "+word+": "+letters.Length);
+        foreach( char s in letters) {
+            m_targetWordLetters.Add(""+s);
+        }
+        Debug.Log(m_targetWordLetters.Count);
+        HighlightKeys();
     }
 }
