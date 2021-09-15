@@ -20,7 +20,7 @@ public class TypeWriterBehaviour : MonoBehaviour {
     public List<GameObject> m_typewriterKeys = new List<GameObject>();
     public List<GameObject> m_typewriterLetterbars = new List<GameObject>();
     Dictionary<string,int> m_charaterMapping = new Dictionary<string,int>();
-    /////
+    ///// key highlighting
     public Color m_highlightColour = Color.red;
 
     ////// word processing
@@ -58,6 +58,7 @@ public class TypeWriterBehaviour : MonoBehaviour {
         }
         Debug.Log("Dictionary length: "+m_charaterMapping.Count);
     }
+
     void ReadMouseInput() {
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -78,6 +79,8 @@ public class TypeWriterBehaviour : MonoBehaviour {
                 // return carriage
                 ResetCarriage();
                 // roll up paper one line
+            }else if(hit.collider.tag == "rollerKnob"){
+                RollToNextLine();
             }
         }
     }
@@ -169,8 +172,6 @@ public class TypeWriterBehaviour : MonoBehaviour {
         m_isMoving = false;
     }
 
-
-
     public void HighlightKeys() {
         if(m_targetWordLetters.Count > 0) {
             int l;
@@ -208,5 +209,9 @@ public class TypeWriterBehaviour : MonoBehaviour {
         }
         Debug.Log(m_targetWordLetters.Count);
         HighlightKeys();
+    }
+
+    public void RollToNextLine() { // May want to find a nicer name
+
     }
 }
