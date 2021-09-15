@@ -26,6 +26,8 @@ public class TypeWriterBehaviour : MonoBehaviour {
     ////// word processing
     List<string> m_targetWordLetters = new List<string>(); 
 
+    ////// paper feed
+
     void Start() {
         Initialise();
     }
@@ -51,12 +53,12 @@ public class TypeWriterBehaviour : MonoBehaviour {
 
                 if(!m_charaterMapping.TryGetValue(temp.m_characters[b], out v)) {
                     m_charaterMapping.Add(temp.m_characters[b],temp.m_keyIndex);
-                }else{
+                }
+                else{
                     Debug.Log("Unable to add value: "+temp.m_characters[b]);
                 }
             }
         }
-        Debug.Log("Dictionary length: "+m_charaterMapping.Count);
     }
 
     void ReadMouseInput() {
@@ -73,13 +75,13 @@ public class TypeWriterBehaviour : MonoBehaviour {
                     character = key.m_characters[1];
                 }
                 PressedKey(key.m_keyIndex, character);
-            }else if(hit.collider.tag == "carriageReturnLever"){
+            }else if(hit.collider.tag == "carriageReturnLever") {
                 // animate lever
                 m_typewriterReturnLever.GetComponent<Animation>().Play();
                 // return carriage
                 ResetCarriage();
                 // roll up paper one line
-            }else if(hit.collider.tag == "rollerKnob"){
+            }else if(hit.collider.tag == "rollerKnob") {
                 RollToNextLine();
             }
         }
@@ -111,6 +113,8 @@ public class TypeWriterBehaviour : MonoBehaviour {
         if(m_tempCharacterCount == m_maxCharacterCount) {
             m_typewriterCarriage.GetComponent<AudioSource>().clip = m_typewriterSounds[6];
             m_typewriterCarriage.GetComponent<AudioSource>().Play();
+            
+            // Need to give feedack that the player needs to return the typewriter carriage
         }
 
         if(m_targetWordLetters.Count != 0) {
@@ -130,15 +134,21 @@ public class TypeWriterBehaviour : MonoBehaviour {
         foreach (char c in Input.inputString) {
             keyboardInput += c;
         }
-        if(keyboardInput != "" && keyboardInput != "r"  && keyboardInput != "h" && m_tempCharacterCount < m_maxCharacterCount && !m_isMoving) {
+        if(keyboardInput != "" && keyboardInput != "r"  && keyboardInput != "h" && keyboardInput != "t" && m_tempCharacterCount < m_maxCharacterCount && !m_isMoving) {
             int a;
             m_charaterMapping.TryGetValue(keyboardInput, out a);
             PressedKey(a, keyboardInput);
-        } else if (keyboardInput == "r") {
+        } 
+        else if (keyboardInput == "r") { // testing only, needs to be removed once the whole keyboard is in use
             ResetCarriage();
-        } else if (keyboardInput == "h") {
+        } 
+        else if (keyboardInput == "h") { // testing only, needs to be removed once the whole keyboard is in use
             SetTargetWord("deseased");
             HighlightKeys();
+        }
+        else if (keyboardInput == "t") { // testing only, needs to be removed once the whole keyboard is in use
+            string testString = "Lorem ipsum lorem. The quick brown fox jumps over the fence. /return Are you sure about that? What else would you do? Let's go over this one more time... ...";
+            StartCoroutine(WriteStringAutomatically(testString));
         }
     }
 
@@ -159,7 +169,8 @@ public class TypeWriterBehaviour : MonoBehaviour {
         Vector3 movedPos = m_typewriterCarriage.transform.position;
         if(reset) {
             movedPos = new Vector3(currentPos.x,currentPos.y, m_carriageMoveMin);
-        } else {
+        } 
+        else {
             movedPos = new Vector3(currentPos.x,currentPos.y, currentPos.z+distance);
         }
         
@@ -168,6 +179,9 @@ public class TypeWriterBehaviour : MonoBehaviour {
             Vector3 newPos = Vector3.Lerp(currentPos, movedPos, counter/duration);
             m_typewriterCarriage.transform.position = newPos;
             yield return null;
+        }
+        if(reset) {
+            RollToNextLine();
         }
         m_isMoving = false;
     }
@@ -188,14 +202,35 @@ public class TypeWriterBehaviour : MonoBehaviour {
         }
     }
 
-    public void WriteStringAutomatically(string automatedText) { // Maybe an I enumerator?
+    public IEnumerator WriteStringAutomatically(string automatedText, float typeTime = 0.05f, float carriageReturnTime = 1.0f) { // Maybe an I enumerator?
+        // typeTime - how much time do we spend for pressing a key? Should refelect the typing speed / speed of speach 
+        // carriageReturnTime - how much does it take to return the carriage?
+        
         // Devide automated text in separate strings
-        // check string
-        // perform actions for special string e.g. "return" will return the carriage and go to the next line 
-        // start and wait for other coroutine to finish?
-        // type characters
-        // keep track of type caracters
-        // return carriage when max characters reached
+        string[] words = automatedText.Split();
+        int wordCount = words.Length;
+        for(int a = 0; a < wordCount; a++) {
+            if(words[a] != "/return") {
+                char[] letters = words[a].ToCharArray();
+                // check if the word fits on page
+                if(m_tempCharacterCount+letters.Length <= m_maxCharacterCount) {
+                    foreach (char l in letters) {
+                        //Debug.Log("type letter: "+l);
+                        yield return new WaitForSeconds(typeTime);
+                    }
+                }
+                else {
+                    Debug.Log("Need to go to next line");
+                    ResetCarriage();
+                    a--; // Should make sure that we have
+                    yield return new WaitForSeconds(carriageReturnTime);
+                }
+            }
+            else {
+                ResetCarriage();
+                yield return new WaitForSeconds(carriageReturnTime);
+            }
+        }
     }
 
     public void SetTargetWord(string word) {
@@ -212,6 +247,10 @@ public class TypeWriterBehaviour : MonoBehaviour {
     }
 
     public void RollToNextLine() { // May want to find a nicer name
-
+        Debug.Log("Rolled to next line.");
+        // Rotate roller knob
+        // play rotation sound
+        // move piece of paper
+        // indicate if we reached the end of the paper
     }
 }
