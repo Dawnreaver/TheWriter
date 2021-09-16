@@ -147,7 +147,7 @@ public class TypeWriterBehaviour : MonoBehaviour {
             HighlightKeys();
         }
         else if (keyboardInput == "t") { // testing only, needs to be removed once the whole keyboard is in use
-            string testString = "Lorem ipsum lorem. The quick brown fox jumps over the fence. /return Are you sure about that? What else would you do? Let's go over this one more time... ...";
+            string testString = "qweasdzxc zcsda edc edws asdqw qweasdzxc qweasdzxc /return asdqwe qwe qwe asdzxc qweasd asdqw a asdwe zxcasdqwe qweasd zxcasd ed ws qa zxcasd asdqw asdzxc";
             StartCoroutine(WriteStringAutomatically(testString));
         }
     }
@@ -202,7 +202,7 @@ public class TypeWriterBehaviour : MonoBehaviour {
         }
     }
 
-    public IEnumerator WriteStringAutomatically(string automatedText, float typeTime = 0.05f, float carriageReturnTime = 1.0f) { // Maybe an I enumerator?
+    public IEnumerator WriteStringAutomatically(string automatedText, float typeTime = 0.15f, float carriageReturnTime = 1.0f) { // Maybe an I enumerator?
         // typeTime - how much time do we spend for pressing a key? Should refelect the typing speed / speed of speach 
         // carriageReturnTime - how much does it take to return the carriage?
         
@@ -213,11 +213,18 @@ public class TypeWriterBehaviour : MonoBehaviour {
             if(words[a] != "/return") {
                 char[] letters = words[a].ToCharArray();
                 // check if the word fits on page
-                if(m_tempCharacterCount+letters.Length <= m_maxCharacterCount) {
+                if(m_tempCharacterCount+letters.Length+1 <= m_maxCharacterCount) {
                     foreach (char l in letters) {
-                        //Debug.Log("type letter: "+l);
+                    
+                        int b;
+                        string character = l.ToString();
+                        m_charaterMapping.TryGetValue(character, out b);
+                        PressedKey(b, character);
+
                         yield return new WaitForSeconds(typeTime);
                     }
+                    PressedKey(10, " ");
+                    yield return new WaitForSeconds(typeTime);
                 }
                 else {
                     Debug.Log("Need to go to next line");
@@ -227,6 +234,7 @@ public class TypeWriterBehaviour : MonoBehaviour {
                 }
             }
             else {
+                 Debug.Log("Found '/return'.");
                 ResetCarriage();
                 yield return new WaitForSeconds(carriageReturnTime);
             }
