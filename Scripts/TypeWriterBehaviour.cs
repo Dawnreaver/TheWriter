@@ -153,11 +153,17 @@ public class TypeWriterBehaviour : MonoBehaviour {
     }
 
     void ResetCarriage() {
+        float baseReturnTime = 0.5f;
+
+        Debug.Log("a = "+m_tempCharacterCount+" b = "+m_maxCharacterCount+ "a/b = "+m_tempCharacterCount/m_maxCharacterCount);
+        float returnTime = baseReturnTime*((float)m_tempCharacterCount/(float)m_maxCharacterCount);
+        Debug.Log(returnTime);
+        StartCoroutine(MoveCarriage(0.0f,returnTime,true));
+        m_typewriterReturnLever.GetComponent<Animation>().Play();
         m_tempCharacterCount = 0;
-        StartCoroutine(MoveCarriage(0.0f,0.5f,true));
     }
 
-    IEnumerator MoveCarriage(float distance, float duration, bool reset = false) {
+    IEnumerator MoveCarriage(float targetZpos, float duration, bool reset = false) {
 
         if(m_isMoving) {
             yield break;
@@ -171,7 +177,7 @@ public class TypeWriterBehaviour : MonoBehaviour {
             movedPos = new Vector3(currentPos.x,currentPos.y, m_carriageMoveMin);
         } 
         else {
-            movedPos = new Vector3(currentPos.x,currentPos.y, currentPos.z+distance);
+            movedPos = new Vector3(currentPos.x,currentPos.y, currentPos.z+targetZpos);
         }
         
         while (counter < duration) {
