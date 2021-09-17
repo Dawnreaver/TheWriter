@@ -26,10 +26,10 @@ public class TypeWriterKeyBehaviour : MonoBehaviour {
     }
 
     public void HighlightKey(Color highlightColour) {
-        if(!m_highlighted) {
-            m_highlighted = true;
+        // if(!m_highlighted) {
+        //     m_highlighted = true;
             StartCoroutine(ChangeColour(highlightColour, 0.25f));
-        }
+        //}
     }
     public void RevertKeyColour() {
         m_highlighted = false;

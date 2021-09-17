@@ -23,8 +23,14 @@ public class TypeWriterBehaviour : MonoBehaviour {
     ///// key highlighting
     public Color m_highlightColour = Color.red;
 
+    /// automatic typing
+    bool m_isTypingAutonomously = false;
+    string m_testString = "qweasdzxc zcsda edc edws asdqw qweasdzxc qweasdzxc /return asdqwe qwe qwe asdzxc qweasd asdqw a asdwe zxcasdqwe qweasd zxcasd ed ws qa zxcasd asdqw asdzxc";
+
     ////// word processing
     List<string> m_targetWordLetters = new List<string>(); 
+    string m_typedWord ="";
+    string m_targetWord = "was";
 
     ////// paper feed
 
@@ -93,10 +99,13 @@ public class TypeWriterBehaviour : MonoBehaviour {
         }
         if(character == " "){
             m_typewriterAudio.clip = m_typewriterSounds[5];
+            m_typedWord +=character;
         }
         else if(character != " " && character != "") {
             m_typewriterAudio.clip = m_typewriterSounds[Random.Range(0,5)];
             m_typewriterLetterbars[index-1].GetComponent<Animation>().Play();
+            m_typedWord +=character;
+            ValidateTypedWord(index-1);
         }
         else {
             if(m_typewriterAudio.clip) {
@@ -104,9 +113,9 @@ public class TypeWriterBehaviour : MonoBehaviour {
             }
             Debug.Log("Unexpected character: "+character);
         }
-        if(key.m_highlighted) {
-            key.RevertKeyColour();
-        }
+        // if(key.m_highlighted) {
+        //     key.RevertKeyColour();
+        // }
         key.AnimateKey();
         m_typewriterAudio.Play();
         m_tempCharacterCount += 1;
@@ -143,12 +152,11 @@ public class TypeWriterBehaviour : MonoBehaviour {
             ResetCarriage();
         } 
         else if (keyboardInput == "h") { // testing only, needs to be removed once the whole keyboard is in use
-            SetTargetWord("deseased");
+            SetTargetWord(m_targetWord);
             HighlightKeys();
         }
         else if (keyboardInput == "t") { // testing only, needs to be removed once the whole keyboard is in use
-            string testString = "qweasdzxc zcsda edc edws asdqw qweasdzxc qweasdzxc /return asdqwe qwe qwe asdzxc qweasd asdqw a asdwe zxcasdqwe qweasd zxcasd ed ws qa zxcasd asdqw asdzxc";
-            StartCoroutine(WriteStringAutomatically(testString));
+            StartCoroutine(WriteStringAutomatically(m_testString));
         }
     }
 
@@ -208,11 +216,15 @@ public class TypeWriterBehaviour : MonoBehaviour {
         }
     }
 
-    public IEnumerator WriteStringAutomatically(string automatedText, float typeTime = 0.15f, float carriageReturnTime = 1.0f) { // Maybe an I enumerator?
-        // typeTime - how much time do we spend for pressing a key? Should refelect the typing speed / speed of speach 
-        // carriageReturnTime - how much does it take to return the carriage?
-        
-        // Devide automated text in separate strings
+    void UnHighlightKeys() {
+        for (int a = 0; a < m_typewriterKeys.Count; a++) {
+            m_typewriterKeys[a].GetComponent<TypeWriterKeyBehaviour>().RevertKeyColour();
+        }
+        Debug.Log("Reset all key highlighting");
+    }
+
+    public IEnumerator WriteStringAutomatically(string automatedText, float typeTime = 0.15f, float carriageReturnTime = 1.0f) {
+        m_isTypingAutonomously = true;
         string[] words = automatedText.Split();
         int wordCount = words.Length;
         for(int a = 0; a < wordCount; a++) {
@@ -235,7 +247,7 @@ public class TypeWriterBehaviour : MonoBehaviour {
                 else {
                     Debug.Log("Need to go to next line");
                     ResetCarriage();
-                    a--; // Should make sure that we have
+                    a--;
                     yield return new WaitForSeconds(carriageReturnTime);
                 }
             }
@@ -248,9 +260,7 @@ public class TypeWriterBehaviour : MonoBehaviour {
     }
 
     public void SetTargetWord(string word) {
-        // make sure the list of target letters is empty
         m_targetWordLetters.Clear();
-        // split the word into letters
         char[] letters = word.ToCharArray();
         Debug.Log("Number of letters in "+word+": "+letters.Length);
         foreach( char s in letters) {
@@ -258,6 +268,34 @@ public class TypeWriterBehaviour : MonoBehaviour {
         }
         Debug.Log(m_targetWordLetters.Count);
         HighlightKeys();
+    }
+
+    public void ValidateTypedWord(int index) {
+        if(!m_isTypingAutonomously) {
+            bool correctWord = true;
+            for(int l = 0; l < m_typedWord.Length; l++) {
+                if(m_typedWord[l].ToString() != m_targetWord[l].ToString()) {
+                    correctWord = false;
+                    SetTargetWord(m_targetWord);
+                    HighlightKeys();
+                    m_typedWord ="";
+                    Debug.Log("Wrong key pressed");
+                    return;
+                }
+                else if (m_typedWord[l].ToString() == m_targetWord[l].ToString()){
+                    Debug.Log("Make it blue!");
+                    // need to disable the highlight on the key
+                    m_typewriterKeys[index].GetComponent<TypeWriterKeyBehaviour>().HighlightKey(Color.blue);
+                    Debug.Log(l);
+                    if(l == m_targetWord.Length-1) {
+                        Debug.Log("Word was spelled correctly!");
+                        UnHighlightKeys();
+                        // trigger event when the right word was spelled
+                        // talk to the game event manager?
+                    }
+                }
+            }
+        }
     }
 
     public void RollToNextLine() { // May want to find a nicer name
